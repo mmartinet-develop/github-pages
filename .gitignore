@@ -1,31 +1,26 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+pnpm-lock.yaml
 
-# MkDocs
-site/
+# Astro build output
+dist/
+.astro/
 .cache/
+
+# Diagrams output
+src/assets/diagrams/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
 
 # IDE
 .vscode/
@@ -38,3 +33,5 @@ site/
 # Generated assets
 docs/assets/diagrams/*.svg
 docs/assets/diagrams/*.png
+
+node_modules

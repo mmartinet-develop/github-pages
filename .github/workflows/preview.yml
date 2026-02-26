@@ -13,15 +13,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: npm ci
 
       - name: Install PlantUML
         run: |
@@ -29,30 +28,13 @@ jobs:
           sudo apt-get install -y plantuml default-jre
 
       - name: Install DrawIO CLI
-        run: |
-          npm install -g @jgraph/drawio-desktop-launcher
+        run: npm install -g @jgraph/drawio-desktop-launcher
 
-      - name: Create assets directory
-        run: mkdir -p docs/assets/diagrams
-
-      - name: Convert PlantUML to SVG
-        run: |
-          find docs -name "*.puml" -type f | while read file; do
-            output_dir="docs/assets/diagrams"
-            filename=$(basename "$file" .puml)
-            plantuml -Tsvg -o "$output_dir" "$file"
-          done
-
-      - name: Convert DrawIO to SVG
-        run: |
-          find docs -name "*.drawio" -type f | while read file; do
-            output_dir="docs/assets/diagrams"
-            filename=$(basename "$file" .drawio)
-            drawio -x -f svg -o "$output_dir/$filename.svg" "$file"
-          done
+      - name: Build diagrams
+        run: npm run build:diagrams
 
       - name: Build preview
-        run: mkdocs build
+        run: npm run build
 
       - name: Comment PR with preview link
         uses: actions/github-script@v7

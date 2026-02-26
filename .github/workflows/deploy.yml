@@ -9,7 +9,7 @@ on:
     branches:
       - main
 
-# Permet de pusher sur gh-pages
+# Permissions for GitHub Pages
 permissions:
   contents: read
   pages: write
@@ -26,15 +26,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: '3.11'
+          node-version: '20'
+          cache: 'npm'
 
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+      - name: Install dependencies
+        run: npm ci
 
       - name: Install PlantUML
         run: |
@@ -42,42 +41,20 @@ jobs:
           sudo apt-get install -y plantuml default-jre
 
       - name: Install DrawIO CLI
-        run: |
-          npm install -g @jgraph/drawio-desktop-launcher
+        run: npm install -g @jgraph/drawio-desktop-launcher
 
-      - name: Create assets directory
-        run: |
-          mkdir -p docs/assets/diagrams
+      - name: Build diagrams
+        run: npm run build:diagrams
 
-      # Convertir tous les fichiers PlantUML en SVG
-      - name: Convert PlantUML to SVG
-        run: |
-          find docs -name "*.puml" -type f | while read file; do
-            output_dir="docs/assets/diagrams"
-            filename=$(basename "$file" .puml)
-            echo "Converting: $file -> $output_dir/$filename.svg"
-            plantuml -Tsvg -o "$output_dir" "$file"
-          done
-
-      # Convertir tous les fichiers DrawIO en SVG
-      - name: Convert DrawIO to SVG
-        run: |
-          find docs -name "*.drawio" -type f | while read file; do
-            output_dir="docs/assets/diagrams"
-            filename=$(basename "$file" .drawio)
-            echo "Converting: $file -> $output_dir/$filename.svg"
-            drawio -x -f svg -o "$output_dir/$filename.svg" "$file"
-          done
-
-      - name: Build docs with MkDocs
-        run: mkdocs build
+      - name: Build site with Astro
+        run: npm run build
 
       - name: Upload artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'site'
+          path: 'dist'
 
-  # Déployer sur GitHub Pages
+  # Deploy to GitHub Pages
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     needs: build

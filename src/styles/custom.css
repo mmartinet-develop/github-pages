@@ -1,0 +1,19 @@
+/* Custom styles for Starlight */
+
+:root {
+  --sl-color-accent-high: #4f46e5;
+}
+
+img {
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.diagram-container {
+  display: flex;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--sl-color-neutral-1);
+  border-radius: 0.5rem;
+  border: 1px solid var(--sl-color-neutral-5);
+}
