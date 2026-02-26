@@ -1,0 +1,62 @@
+@startuml mini-lab-architecture
+!theme plain
+skinparam backgroundColor #FEFEFE
+skinparam linetype ortho
+
+' Acteurs
+actor "Client App" as client
+
+' Management Account
+package "Management Account" {
+    component "CloudTrail\n(Centralisé)" as cloudtrail
+    database "Logs S3" as logs_s3
+}
+
+' Shared Services VPC
+package "Shared Services VPC\n(10.0.0.0/16)" {
+    component "VPC Lattice\nService Network" as lattice
+    database "Kafka Cluster" as kafka
+    component "Monitoring\n(CloudWatch)" as monitoring
+}
+
+' Team A - Ingestion
+package "Team A VPC\n(10.1.0.0/16)" {
+    component "API Gateway" as api_a
+    component "Lambda\nIngestion" as lambda_a
+    database "DynamoDB\nEvents" as dynamo_a
+}
+
+' Team B - Event-driven
+package "Team B VPC\n(10.2.0.0/16)" {
+    component "Lambda\nProcessor" as lambda_b
+    component "Step Functions" as step_b
+}
+
+' Team C - Analytics
+package "Team C VPC\n(10.3.0.0/16)" {
+    database "S3\nRaw Data" as s3_c
+    component "Glue ETL" as glue_c
+    database "Athena" as athena_c
+}
+
+' Connections
+client --> api_a: REST API
+api_a --> lambda_a: Invoke
+lambda_a --> dynamo_a: PutItem
+dynamo_a --> kafka: Stream Events
+kafka --> lambda_b: Consume
+lambda_b --> step_b: Orchestrate
+dynamo_a --> s3_c: Archive
+s3_c --> glue_c: ETL
+glue_c --> athena_c: Query
+
+' Monitoring
+lambda_a -.-> monitoring: Logs/Metrics
+lambda_b -.-> monitoring: Logs/Metrics
+monitoring -.-> cloudtrail: Audit
+
+' VPC Lattice connections
+api_a -.-> lattice: Service Discovery
+kafka -.-> lattice: Service Discovery
+
+@enduml
