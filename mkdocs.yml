@@ -1,0 +1,44 @@
+site_name: Architecture Documentation
+site_description: "Documentation architecture complète - Diagrammes et spécifications"
+theme:
+  name: material
+  language: fr
+  palette:
+    primary: indigo
+    accent: indigo
+  features:
+    - content.tabs.link
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+
+nav:
+  - Accueil: index.md
+  - Architecture: architecture/index.md
+  - Composants: component-a/index.md
+
+plugins:
+  - search:
+      lang: fr
+  - offline:
+      enabled: !ENV [OFFLINE, false]
+
+markdown_extensions:
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences
+  - md_in_html
+  - toc:
+      toc_depth: 2
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:pymdownx.emoji.twemoji
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com
+
+copyright: "© 2026 Documentation Architecture Stackstronauts"
