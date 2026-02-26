@@ -18,7 +18,7 @@ fi
 
 # Vérifier si drawio est installé
 if ! command -v drawio &> /dev/null; then
-    echo "⚠️  DrawIO CLI not found. Install with: npm install -g @jgraph/drawio-desktop-launcher"
+    echo "⚠️  DrawIO CLI not found. Install with: npm install -g @drawio/cli"
 fi
 
 # Convertir PlantUML

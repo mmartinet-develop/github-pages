@@ -197,7 +197,7 @@ drawio -x -f svg -o docs/assets/diagrams/diagram.svg docs/diagram.drawio
 | Problème | Solution |
 |----------|----------|
 | `plantuml: command not found` | `brew install plantuml` ou `sudo apt install plantuml` |
-| `drawio: command not found` | `npm install -g @jgraph/drawio-desktop-launcher` |
+| `drawio: command not found` | `npm install -g @drawio/cli` |
 | Imports markdown dans MkDocs ne marchent pas | MkDocs ne supporte pas l'import de markdown. Copiez le contenu ou utilisez des liens |
 | Diagrammes ne s'affichent pas | Vérifiez le chemin relatif (`../assets/diagrams/`) |
 | GitHub Pages ne déploie pas | Vérifiez la branche `gh-pages` existe, vérifiez les permissions |

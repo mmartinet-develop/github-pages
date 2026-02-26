@@ -33,7 +33,7 @@ brew install plantuml
 sudo apt-get install plantuml
 
 # DrawIO CLI:
-npm install -g @jgraph/drawio-desktop-launcher
+npm install -g @drawio/cli
 ```
 
 ### Développement local

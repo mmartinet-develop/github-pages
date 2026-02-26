@@ -31,7 +31,7 @@ fi
 # Install DrawIO CLI
 echo "📐 Installing DrawIO CLI..."
 if command -v npm &> /dev/null; then
-    npm install -g @jgraph/drawio-desktop-launcher
+    npm install -g @drawio/cli
 else
     echo "⚠️  Node.js/npm not found. Install from: https://nodejs.org/"
 fi

@@ -46,7 +46,7 @@ echo ""
 echo "📐 Installing DrawIO CLI (optional but recommended)..."
 
 if command -v npm &> /dev/null; then
-    npm install -g @jgraph/drawio-desktop-launcher
+    npm install -g @drawio/cli
     echo "  ✓ DrawIO CLI installed"
 else
     echo "  ⚠️  npm not found. DrawIO CLI installation skipped."
